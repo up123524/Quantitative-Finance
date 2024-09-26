@@ -1,0 +1,37 @@
+import pandas as pd
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+N=norm.cdf
+##BS call option
+
+def BS_CALL(S, K, T, r, sigma):
+    d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+    return S * N(d1) - K * np.exp(-r*T)* N(d2)
+
+#BS put option
+
+def BS_PUT(S,K,T,r, sigma):
+    d1=(np.log(S/K)+(r+sigma**2/2)*T)/(sigma*np.sqrt(T))
+    d2=d1-sigma*np.sqrt(T)
+    return K*np.exp(-r*T)*N(-d2)-S*N(-d1)
+
+
+
+K=9
+r=0.02
+T=0.25
+sigma=0.2
+S=8
+
+S=np.arange(60,140,0.1)
+calls=[BS_CALL(s,K,T,r,sigma) for s in S]
+plt.plot(calls, label="Call Value")
+plt.ylabel('Value')
+plt.legend()
+plt.show() 
+
+N(-0.22033)
+N(-1)
